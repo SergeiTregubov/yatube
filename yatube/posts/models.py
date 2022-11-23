@@ -63,9 +63,6 @@ class Post(models.Model):
         blank=True,
     )
 
-    # Аргумент upload_to указывает директорию, 
-    # в которую будут загружаться пользовательские файлы.
-
     class Meta:
         ordering = ('-pub_date',)
         verbose_name_plural = 'Посты'

@@ -178,7 +178,7 @@ class PaginatorViewsTest(TestCase):
             self.assertEqual(
                 len(response.context['page_obj']),
                 (self.TEST_OF_POST - (
-                        page_number - 1
+                    page_number - 1
                 ) * settings.COUNTER)
             )
 
