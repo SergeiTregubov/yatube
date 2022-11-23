@@ -10,20 +10,19 @@ class PostForm(ModelForm):
         labels = {'group': 'Группа', 'text': 'Сообщение', 'image': 'Картинка'}
         help_texts = {
             'group': 'Выберите группу',
-            'text': 'Введите ссообщение', 
+            'text': 'Введите ссообщение',
             'image': 'Выберите картинку'}
         # Добавили поле image в форму
         fields = ('group', 'text', 'image')
         widgets = {
-            'text': forms.Textarea(attrs={"class": "form-control"},),
+            'text': forms.Textarea(attrs={"class": "form-control"}, ),
             'group': forms.Select(attrs={"class": "form-control"}),
-        } 
+        }
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('text',)
-        labels = {'text': 'Текст комментария',}
+        labels = {'text': 'Текст комментария', }
         help_texts = {'text': 'Напишите ваш комментарий', }
-        

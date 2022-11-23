@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
 
 
@@ -63,6 +62,7 @@ class Post(models.Model):
         help_text='Выберите картинку',
         blank=True,
     )
+
     # Аргумент upload_to указывает директорию, 
     # в которую будут загружаться пользовательские файлы.
 
@@ -73,6 +73,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text[:self.COUNTER_CHARACTERS]
+
 
 class Comment(models.Model):
     post = models.ForeignKey(
@@ -96,6 +97,7 @@ class Comment(models.Model):
         auto_now_add=True,
     )
 
+
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
@@ -111,4 +113,4 @@ class Follow(models.Model):
     )
 
     def __str__(self):
-        return self.user    
+        return self.user

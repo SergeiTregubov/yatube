@@ -31,4 +31,4 @@ class PostModelTest(TestCase):
         for field, expected_value in field_help_texts:
             with self.subTest(field=field):
                 self.assertEqual(
-                    expected_value, str(field))                
+                    expected_value, str(field))

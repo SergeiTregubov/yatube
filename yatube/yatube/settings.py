@@ -130,7 +130,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 
-COUNTER : int = 10
+COUNTER: int = 10
 
 
 LOGIN_URL = 'users:login'

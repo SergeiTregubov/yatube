@@ -15,6 +15,7 @@ def paginatoring(post_list, page_number):
     page_obj = paginator.get_page(page_number)
     return page_obj
 
+
 @cache_page(UPDATE_CASHE_SEC, key_prefix='index_page')
 def index(request):
     post_list = Post.objects.select_related('author', 'group')
@@ -71,6 +72,7 @@ def post_create(request):
         post.save()
         return redirect('posts:profile', username=request.user)
     return render(request, 'posts/create_post.html', {'form': form})
+
 
 # Нужно лишь передать дополнительный параметр files=request.FILES or None
 @login_required
@@ -136,4 +138,3 @@ def profile_unfollow(request, username):
     )
     user_follower.delete()
     return redirect('posts:profile', username)
-    

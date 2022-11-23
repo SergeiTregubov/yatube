@@ -12,6 +12,7 @@ from posts.models import Post, Group
 User = get_user_model()
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
+
 class PostFormTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -27,7 +28,6 @@ class PostFormTests(TestCase):
             text='Тестовый текст',
             group=cls.group,
         )
-    
 
     def setUp(self):
         self.authorized_client = Client()
@@ -51,7 +51,7 @@ class PostFormTests(TestCase):
         values_list = set(Post.objects.values_list('id', flat=True))
         form_data = {'text': 'Текст записанный в форму',
                      'group': self.group.id,
-                     'image': uploaded,}
+                     'image': uploaded, }
         response = self.authorized_client.post(
             reverse('posts:post_create'), data=form_data, follow=True
         )
@@ -91,8 +91,8 @@ class PostFormTests(TestCase):
     def test_reddirect_guest_client(self):
         '''Проверка редиректа неавторизованного пользователя'''
         post = Post.objects.create(text='Тестовый текст',
-                                        author=self.user,
-                                        group=self.group)
+                                   author=self.user,
+                                   group=self.group)
         form_data = {'text': 'Текст записанный в форму'}
         response = self.client.post(
             reverse('posts:post_edit', kwargs={'post_id': post.id}),
@@ -101,4 +101,3 @@ class PostFormTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertRedirects(
             response, f'/auth/login/?next=/posts/{post.id}/edit/')
-            

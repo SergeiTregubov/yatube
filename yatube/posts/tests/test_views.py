@@ -43,7 +43,7 @@ class PostViewsTests(TestCase):
             text='Тестовый текст',
             group=cls.group,
             image=uploaded,
-        )    
+        )
 
     def setUp(self):
         self.guest_client = Client()
@@ -78,11 +78,11 @@ class PostViewsTests(TestCase):
             (reverse(
                 'posts:group_list',
                 kwargs={'slug': self.group.slug}),
-                self.group, 'group'),
+             self.group, 'group'),
             (reverse(
                 'posts:profile',
                 kwargs={'username': self.post.author.username}),
-                self.post.author, 'author'),
+             self.post.author, 'author'),
         ]
         for reverse_name, fixtures, context in templates_pages_names:
             response = self.guest_client.get(reverse_name)
@@ -178,9 +178,10 @@ class PaginatorViewsTest(TestCase):
             self.assertEqual(
                 len(response.context['page_obj']),
                 (self.TEST_OF_POST - (
-                    page_number - 1
+                        page_number - 1
                 ) * settings.COUNTER)
             )
+
 
 class CommentTests(TestCase):
     @classmethod
@@ -197,7 +198,7 @@ class CommentTests(TestCase):
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
         cache.clear()
-        
+
     def test_authorized_client_comment(self):
         """Авторизированный пользователь может комментировать"""
         text_comment = 'Kомментарий'
@@ -241,7 +242,7 @@ class TestCache(TestCase):
         response = self.authorized_client.get(reverse('posts:index'))
         posts = response.content
         Post.objects.create(text='Текст поста',
-                            author=self.user,)
+                            author=self.user, )
         response_old = self.authorized_client.get(reverse('posts:index'))
         old_posts = response_old.content
         self.assertEqual(old_posts, posts)
@@ -258,7 +259,7 @@ class FollowTest(TestCase):
         cls.post_autor = User.objects.create(username='autor')
         cls.post_follower = User.objects.create(username='follower')
         cls.post = Post.objects.create(text='Подпишись на меня',
-                                       author=cls.post_autor,)
+                                       author=cls.post_autor, )
 
     def setUp(self):
         self.authorized_client = Client()
@@ -303,4 +304,3 @@ class FollowTest(TestCase):
                                    text="Подпишись на меня")
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertNotIn(post, response.context['page_obj'].object_list)
-
