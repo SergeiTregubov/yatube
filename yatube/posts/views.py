@@ -56,9 +56,15 @@ def post_detail(request, post_id):
     post = get_object_or_404(
         Post.objects.select_related('group', 'author'),
         id=post_id)
+
+    comments = post.comments.all()
+    form = CommentForm()
+    
     context = {
         'post': post,
         'posts_count': post.author.posts.count(),
+        'comments': comments,
+        'form': form,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -77,22 +83,22 @@ def post_create(request):
 # Нужно лишь передать дополнительный параметр files=request.FILES or None
 @login_required
 def post_edit(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
+    post = get_object_or_404(
+        Post.objects.select_related('group', 'author'),
+        id=post_id)
     if post.author != request.user:
-        return redirect('posts:post_detail', post_id=post_id)
-
+        return redirect('posts:post_detail', post_id)
     form = PostForm(
         request.POST or None,
         files=request.FILES or None,
-        instance=post
-    )
+        instance=post)
     if form.is_valid():
         form.save()
-        return redirect('posts:post_detail', post_id=post_id)
+        return redirect('posts:post_detail', post_id)
     context = {
         'post': post,
         'form': form,
-        'is_edit': True,
+        'is_edit': True
     }
     return render(request, 'posts/create_post.html', context)
 

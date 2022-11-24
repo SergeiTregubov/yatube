@@ -94,6 +94,14 @@ class Comment(models.Model):
         auto_now_add=True,
     )
 
+    class Meta:
+        ordering = ['-created']
+        verbose_name_plural = 'Коментарии'
+        verbose_name = 'Коментарий'
+
+    def __str__(self):
+        return self.text[:self.COUNTER_CHARACTERS]    
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
