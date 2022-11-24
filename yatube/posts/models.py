@@ -100,7 +100,7 @@ class Comment(models.Model):
         verbose_name = 'Коментарий'
 
     def __str__(self):
-        return self.text[:self.COUNTER_CHARACTERS]    
+        return self.text[:self.COUNTER_CHARACTERS]
 
 
 class Follow(models.Model):

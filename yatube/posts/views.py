@@ -56,10 +56,8 @@ def post_detail(request, post_id):
     post = get_object_or_404(
         Post.objects.select_related('group', 'author'),
         id=post_id)
-
     comments = post.comments.all()
     form = CommentForm()
-    
     context = {
         'post': post,
         'posts_count': post.author.posts.count(),
@@ -71,7 +69,7 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
         post = form.save(commit=False)
         post.author = request.user
