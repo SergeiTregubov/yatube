@@ -10,6 +10,7 @@ from django.urls import reverse
 from posts.models import Follow, Comment, Group, Post
 from posts.forms import PostForm
 
+
 User = get_user_model()
 
 
@@ -298,9 +299,9 @@ class FollowTest(TestCase):
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertIn(post, response.context['page_obj'].object_list)
 
-    def test_notfollow_on_authors(self):
-        """Проверка записей у тех кто не подписан."""
-        post = Post.objects.create(author=self.post_autor,
-                                   text="Подпишись на меня")
-        response = self.authorized_client.get(reverse('posts:follow_index'))
-        self.assertNotIn(post, response.context['page_obj'].object_list)
+
+def test_notfollow_on_authors(self):
+    post = Post.objects.create(
+        author=self.post_autor, text="Подпишись на меня")
+    response = self.authorized_client.get(reverse('posts:follow_index'))
+    self.assertNotIn(post, response.context['page_obj'].object_list)

@@ -12,7 +12,6 @@ class PostForm(ModelForm):
             'group': 'Выберите группу',
             'text': 'Введите ссообщение',
             'image': 'Выберите картинку'}
-        # Добавили поле image в форму
         fields = ('group', 'text', 'image')
         widgets = {
             'text': forms.Textarea(attrs={"class": "form-control"}, ),

@@ -1,17 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Последние обновления на сайте{% endblock %}
+{% block title %}Последние обновления на сайте{%endblock %} 
 {% block content %}
 {% load thumbnail %}
-{% load cache %}
   <h1>Это главная страница проекта Yatube</h1>
-  {% include 'posts/includes/switcher.html' %}
-  {% cache 20 index_page with page_obj %}
+  {% include 'posts/includes/switcher.html' with follow=True %}   
   {% for post in page_obj %}
-    {% include 'posts/includes/post_template.html' with index_profile=True group_index=True %}
-    {% if not forloop.last %}<hr>{% endif %}    
-  {% endfor %}      
-  {% include 'includes/paginator.html' %}
-
-{% endcache %}  
-
+   {%include 'posts/includes/post_template.html' with index_profile=True group_index=True %} 
+   {% if not forloop.last %}<hr />{% endif %} 
+  {% endfor %} 
+  {% include 'includes/paginator.html' %} 
 {% endblock %}

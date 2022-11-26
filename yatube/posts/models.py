@@ -55,7 +55,6 @@ class Post(models.Model):
         verbose_name='Группа',
         help_text='Укажите группу',
     )
-    # Поле для картинки
     image = models.ImageField(
         verbose_name='Картинка',
         upload_to='posts/',
