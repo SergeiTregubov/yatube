@@ -105,28 +105,3 @@ class PostFormTests(TestCase):
         redirect = reverse('login') + '?next=' + reverse('posts:post_create')
         self.assertRedirects(response, redirect)
         self.assertEqual(Post.objects.count(), posts_count)
-
-    def test_authorized_user_edit_post(self):
-        """Проверка редактирования записи авторизированным клиентом."""
-        post = Post.objects.create(
-            text='test',
-            author=self.user,
-            group=self.group
-        )
-        new_post_text = 'new text'
-        new_group = Group.objects.create(
-            title='New Test group',
-            slug='new-test-group',
-            description='new test description'
-        )
-        response = self.authorized_client.post(
-            reverse('posts:post_edit', args=[post.id]),
-            data={'text': new_post_text, 'group': new_group.id},
-            follow=True,
-        )
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(Post.objects.count(), 1)
-        post = Post.objects.first()
-        self.assertEqual(post.text, new_post_text)
-        self.assertEqual(post.author, self.user)
-        self.assertEqual(post.group, new_group)
