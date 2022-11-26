@@ -262,10 +262,3 @@ class FollowTest(TestCase):
                               author=self.post_autor)
         response = self.authorized_client.get(reverse('posts:follow_index'))
         self.assertIn(post, response.context['page_obj'].object_list)
-
-
-def test_notfollow_on_authors(self):
-    post = Post.objects.create(
-        author=self.post_autor, text="Подпишись на меня")
-    response = self.authorized_client.get(reverse('posts:follow_index'))
-    self.assertNotIn(post, response.context['page_obj'].object_list)
