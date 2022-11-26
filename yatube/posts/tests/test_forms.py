@@ -129,4 +129,4 @@ class PostFormTests(TestCase):
         post = Post.objects.first()
         self.assertEqual(post.text, new_post_text)
         self.assertEqual(post.author, self.user)
-        self.assertEqual(post.group, new_group)   
+        self.assertEqual(post.group, new_group)

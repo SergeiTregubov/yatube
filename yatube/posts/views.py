@@ -7,13 +7,10 @@ from .forms import CommentForm, PostForm
 from .models import Post, Group, User, Follow
 
 
-
-
 def paginatoring(post_list, page_number):
     paginator = Paginator(post_list, settings.COUNTER)
     page_obj = paginator.get_page(page_number)
     return page_obj
-
 
 
 def index(request):
