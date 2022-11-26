@@ -217,42 +217,6 @@ class CommentTests(TestCase):
         self.assertEqual(count_comments, Comment.objects.count())
 
 
-class TestCache(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.user = User.objects.create_user(username='auth')
-        cls.group = Group.objects.create(
-            title='title',
-            slug='slug',
-            description='description'
-        )
-        cls.post = Post.objects.create(
-            text='Текст поста',
-            group=cls.group,
-            author=cls.user,
-        )
-
-    def setUp(self):
-        self.authorized_client = Client()
-        self.authorized_client.force_login(self.user)
-        cache.clear()
-
-    def test_cache_index(self):
-        """Проверка хранения и очищения кэша для index."""
-        response = self.authorized_client.get(reverse('posts:index'))
-        posts = response.content
-        Post.objects.create(text='Текст поста',
-                            author=self.user, )
-        response_old = self.authorized_client.get(reverse('posts:index'))
-        old_posts = response_old.content
-        self.assertEqual(old_posts, posts)
-        cache.clear()
-        response_new = self.authorized_client.get(reverse('posts:index'))
-        new_posts = response_new.content
-        self.assertNotEqual(old_posts, new_posts)
-
-
 class FollowTest(TestCase):
     @classmethod
     def setUpClass(cls):
