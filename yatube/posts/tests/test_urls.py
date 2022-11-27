@@ -62,6 +62,7 @@ class PostsURLTests(TestCase):
                  ),
              ),
             ('/create/', reverse('posts:post_create'),),
+            ('/follow/', reverse('posts:follow_index'),),
         ]
         for url, revers_data in test_pages:
             with self.subTest(url=url):
@@ -101,6 +102,7 @@ class PostsURLTests(TestCase):
                 True,
             ),
             ('/unexisting-page/', HTTPStatus.NOT_FOUND, False,),
+            (reverse('posts:follow_index'), HTTPStatus.OK, True),
         ]
         for page, http_status, authorized_client in test_pages:
             with self.subTest(page=page):
@@ -184,6 +186,7 @@ class PostsURLTests(TestCase):
             ),
                 'posts/create_post.html',
             ),
+            (reverse('posts:follow_index'), 'posts/follow.html',),
         ]
         for address, template in test_pages:
             with self.subTest(address=address):

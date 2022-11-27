@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from posts.models import Post, Group
+from posts.models import Comment, Post, Group
 
 User = get_user_model()
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
@@ -69,7 +69,7 @@ class PostFormTests(TestCase):
         self.assertEqual(form_data['group'], post.group.id)
         self.assertEqual(form_data['text'], post.text)
         self.assertEqual(self.user, post.author)
-        self.assertTrue(Post.objects.filter(image='posts/small.gif').exists())
+        self.assertEqual(f'posts/{form_data["image"].name}', post.image.name)
 
     def test_post_edit(self):
         """Валидная форма изменяет запись в Post."""
@@ -105,3 +105,65 @@ class PostFormTests(TestCase):
         redirect = reverse('login') + '?next=' + reverse('posts:post_create')
         self.assertRedirects(response, redirect)
         self.assertEqual(Post.objects.count(), posts_count)
+
+
+class CommentFormTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user = User.objects.create_user(username='auth')
+        cls.group = Group.objects.create(
+            title='Тестовая Группа',
+            slug='test-slug',
+            description='Тестовое описание'
+        )
+        cls.post = Post.objects.create(
+            author=cls.user,
+            text='Тестовый текст',
+            group=cls.group,
+        )
+        cls.comment = Comment.objects.create(
+            post_id=cls.post.id,
+            author=cls.user,
+            text='Комментарий к публикации',
+        )
+
+    def setUp(self):
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
+
+    def test_create_comment(self):
+        """Валидная форма создает комментарий."""
+        old_values_list = set(Comment.objects.values_list('id', flat=True))
+        form_data = {'text': 'Тестируем комментарий к публикации',
+                     }
+        response = self.authorized_client.post(
+            reverse('posts:add_comment',
+                    kwargs={'post_id': self.post.id}
+                    ),
+            data=form_data,
+            follow=True
+        )
+        self.assertRedirects(
+            response,
+            reverse('posts:post_detail',
+                    kwargs={'post_id': self.post.id}
+                    )
+        )
+        new_comments_collection = set(
+            Comment.objects.values_list('id',
+                                        flat=True
+                                        )
+        )
+        new_ids_collection = new_comments_collection.difference(
+            old_values_list
+        )
+        self.assertEqual(
+            len(new_ids_collection),
+            1
+        )
+        post = Comment.objects.get(
+            id=new_ids_collection.pop())
+        self.assertEqual(form_data['text'], post.text)
+        self.assertEqual(self.user, post.author)
+        self.assertEqual(self.post.id, post.post.id)
