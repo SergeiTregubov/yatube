@@ -162,8 +162,8 @@ class CommentFormTests(TestCase):
             len(new_ids_collection),
             1
         )
-        post = Comment.objects.get(
+        post_comment = Comment.objects.get(
             id=new_ids_collection.pop())
-        self.assertEqual(form_data['text'], post.text)
-        self.assertEqual(self.user, post.author)
-        self.assertEqual(self.post.id, post.post.id)
+        self.assertEqual(form_data['text'], post_comment.text)
+        self.assertEqual(self.user, post_comment.author)
+        self.assertEqual(self.post.id, post_comment.post.id)

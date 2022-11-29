@@ -283,7 +283,8 @@ class PaginatorViewsTest(TestCase):
             reverse(
                 'posts:profile',
                 kwargs={'username': self.user.username}
-            )
+            ),
+            reverse('posts:follow_index'),
         )
 
     def test_first_page_contains_ten_records(self):
