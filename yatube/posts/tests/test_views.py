@@ -258,38 +258,35 @@ class PaginatorViewsTest(TestCase):
         cls.group = Group.objects.create(
             title='test-group',
             slug='test-group',
-            description='test description'
+            description='test description',
         )
-        cls.TEST_OF_POST = 13
-        posts_list = []
-        for post_count in range(cls.TEST_OF_POST):
-            posts_list.append(
+        cls.TEST_OF_POST: int = 13
+        cls.post = [
+            Post.objects.bulk_create([
                 Post(
-                    text=f'#{post_count} Тестовый текст .',
+                    text='Тестовый текст' + str(post_plus),
                     group=cls.group,
-                    author=cls.user
-                )
-            )
-        Post.objects.bulk_create(posts_list)
+                    author=cls.user,
+                ),
+            ])
+            for post_plus in range(cls.TEST_OF_POST)
+        ]
+        cls.pages_names = (
+            reverse('posts:index'),
+            reverse(
+                'posts:profile',
+                kwargs={'username': cls.user}),
+            reverse(
+                'posts:group_list',
+                kwargs={'slug': cls.group.slug})
+        )
 
     def setUp(self):
         self.guest_client = Client()
-        self.urls = (
-            reverse('posts:index'),
-            reverse(
-                'posts:group_list',
-                kwargs={'slug': self.group.slug}
-            ),
-            reverse(
-                'posts:profile',
-                kwargs={'username': self.user.username}
-            ),
-            reverse('posts:follow_index'),
-        )
 
-    def test_first_page_contains_ten_records(self):
-        '''Паджинатор содержит 10 записей на первой странице'''
-        for url in self.urls:
+    def test_first_page_contains_ten_posts(self):
+        """Паджинатор содержит 10 записей на первой странице"""
+        for url in self.pages_names:
             response = self.guest_client.get(url)
             self.assertEqual(
                 len(response.context['page_obj']),
@@ -299,7 +296,7 @@ class PaginatorViewsTest(TestCase):
     def test_last_page_contains_three_records(self):
         '''Паджинатор содержит 3 записи на последней странице'''
         page_number = ceil(self.TEST_OF_POST / settings.COUNTER)
-        for url in self.urls:
+        for url in self.pages_names:
             response = self.guest_client.get(
                 url + '?page=' + str(page_number)
             )
