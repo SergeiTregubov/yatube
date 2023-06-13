@@ -89,3 +89,5 @@ python manage.py runserver
 ```bash
 python manage.py createsuperuser
 ```
+
+Автор: [Трегубов Сергей](https://github.com/SergeiTregubov)
