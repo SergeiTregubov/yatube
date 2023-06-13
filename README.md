@@ -1,10 +1,8 @@
-# hw05_final
-
-[![CI](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/yandex-praktikum/hw05_final/actions/workflows/python-app.yml)
-
 # Сайт Yatube - социальная сеть блогеров
 ## Описание проекта
 Сайт Yatube представляет собой социальную сеть, где каждый зарегистрированный пользователь может создавать посты, оставлять к ним комментарии, подписывать на других авторов, создавать группы для постов одной тематики.
+
+
 ### Модели
 
 * **Сообщение**
@@ -25,6 +23,7 @@
 * **Подписывайтесь**
     `user` * - Подписки пользователя
     `author` * - Авторизованный пользователь
+
 
 ### View-функции
 
