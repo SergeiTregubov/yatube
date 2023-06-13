@@ -1,7 +1,13 @@
 # Сайт Yatube - социальная сеть блогеров
 ## Описание проекта
 Сайт Yatube представляет собой социальную сеть, где каждый зарегистрированный пользователь может создавать посты, оставлять к ним комментарии, подписывать на других авторов, создавать группы для постов одной тематики.
-
+### Используемые технологии:
+![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![image](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+![image](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+![image](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)
+![image](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![image](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
 
 ### Модели
 
